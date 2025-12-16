@@ -1,0 +1,61 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* Tarjetas del dashboard */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* Titulos */
+h1, h2, h3, .card-title {
+  color: #1f6b31;
+}
+
+/* Tabla */
+.table thead {
+  background-color: #28a745;
+  color: white;
+}
+
+.table tbody tr:hover {
+  background-color: #e9ffe9;
+}
+
+/* Botones verdes */
+.btn-success, .btn-primary {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+}
+
+.btn-success:hover, .btn-primary:hover {
+  background-color: #1f6b31 !important;
+}
+
+/* Botones outline */
+.btn-outline-success {
+  border-color: #28a745 !important;
+  color: #28a745 !important;
+}
+
+.btn-outline-success:hover {
+  background-color: #28a745 !important;
+  color: white !important;
+}
+
+/* Badge colores */
+.badge-warning  { background-color:#ffc107 !important; }
+.badge-info     { background-color:#0dcaf0 !important; }
+.badge-primary  { background-color:#0d6efd !important; }
+.badge-secondary{ background-color:#6c757d !important; }
+.badge-success  { background-color:#198754 !important; }
+.badge-danger   { background-color:#dc3545 !important; }

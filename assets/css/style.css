@@ -1,0 +1,236 @@
+/* ===== ESTILOS GENERALES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* ===== HEADER Y NAVBAR ===== */
+.navbar {
+    background-color: #28a745 !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+}
+
+/* ===== TARJETAS DE PRODUCTOS ===== */
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.card-title {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.card-text {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* ===== BOTONES ===== */
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    padding: 8px 20px;
+    font-weight: 500;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+/* ===== CARRITO ===== */
+.carrito-badge {
+    font-size: 0.7rem;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+}
+
+/* ===== TABLAS ===== */
+.table th {
+    background-color: #f8f9fa;
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+}
+
+/* ===== FORMULARIOS ===== */
+.form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 30px 0;
+    margin-top: 50px;
+}
+
+footer a {
+    color: #28a745;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #20c997;
+    text-decoration: underline;
+}
+
+/* ===== ALERTAS ===== */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 150px;
+    }
+    
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ===== LOADING ===== */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #28a745;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* ===== CARRUSEL PRINCIPAL ===== */
+#carouselBanner {
+    height: 420px;
+    overflow: hidden;
+}
+
+#carouselBanner .carousel-inner {
+    height: 100%;
+}
+
+#carouselBanner .carousel-item {
+    height: 100%;
+    position: relative;           /* necesario para el overlay ::before */
+}
+
+#carouselBanner .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Overlay oscuro sobre la imagen */
+#carouselBanner .carousel-item::before {
+    content: "";
+    position: absolute;
+    inset: 0; /* top:0; right:0; bottom:0; left:0; */
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.55) 0%,
+        rgba(0, 0, 0, 0.35) 40%,
+        rgba(0, 0, 0, 0.15) 100%
+    );
+    z-index: 1;
+}
+
+/* El texto del carrusel por encima del overlay */
+#carouselBanner .carousel-caption {
+    z-index: 2;
+}
+
+/* Asegurar que el texto sea blanco y legible */
+#carouselBanner .carousel-caption h5,
+#carouselBanner .carousel-caption p {
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+}
