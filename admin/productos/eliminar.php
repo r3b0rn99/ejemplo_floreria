@@ -18,10 +18,22 @@ $id = (int) $_GET['id'];
 $db = new Database();
 $connection = $db->getConnection();
 
-// Opcional: podrías verificar si el producto está en algún pedido antes de borrarlo
+// 1) Verificar si el producto está asociado a algún pedido
+$stmt = $connection->prepare("SELECT COUNT(*) FROM detalle_pedido WHERE producto_id = ?");
+$stmt->execute([$id]);
+$usado = (int) $stmt->fetchColumn();
 
-$sql = "DELETE FROM productos WHERE id = ?";
-$stmt = $connection->prepare($sql);
+if ($usado > 0) {
+    // 2) Si está usado: eliminación lógica (desactivar)
+    $stmt = $connection->prepare("UPDATE productos SET activo = 0 WHERE id = ?");
+    $stmt->execute([$id]);
+
+    header('Location: listar.php?desactivado=1');
+    exit;
+}
+
+// 3) Si no está usado: eliminar físico
+$stmt = $connection->prepare("DELETE FROM productos WHERE id = ?");
 $stmt->execute([$id]);
 
 header('Location: listar.php?eliminado=1');

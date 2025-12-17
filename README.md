@@ -4,6 +4,16 @@ Aplicación web dinámica desarrollada en **PHP** con **MySQL/MariaDB** para la 
 
 ---
 
+## Estructura del proyecto
+
+- public/        → páginas públicas (tienda)
+- admin/         → panel administrador
+- app/Models/    → modelos (acceso a datos)
+- app/Controllers/ → controladores (lógica)
+- includes/      → config, auth, utilidades
+- assets/        → css, js, imágenes y uploads
+- docs/          → documentación (ERD, API, etc.)
+
 ## Funcionalidades principales
 
 ### Público / Cliente
@@ -183,5 +193,32 @@ Generar boleta PDF y validar QR.
 
 Probar API productos con token.
 
-Créditos
-Proyecto académico – Desarrollo de Soluciones Web Back-End.
+
+## Licencia
+
+MIT License
+
+Copyright (c) 2025
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+## Créditos
+Ver `CREDITS.md`.

@@ -16,8 +16,8 @@ $porPagina = 10; // puedes cambiarlo
 $pagina = max(1, (int)($_GET['page'] ?? 1));
 $offset = ($pagina - 1) * $porPagina;
 
-
-$stmtTotal = $connection->prepare("SELECT COUNT(*) FROM productos");
+// TOTAL SOLO ACTIVOS
+$stmtTotal = $connection->prepare("SELECT COUNT(*) FROM productos WHERE activo = 1");
 $stmtTotal->execute();
 $totalRegistros = (int)$stmtTotal->fetchColumn();
 $totalPaginas = max(1, (int)ceil($totalRegistros / $porPagina));
@@ -27,11 +27,10 @@ if ($pagina > $totalPaginas) {
     $offset = ($pagina - 1) * $porPagina;
 }
 
-
-
-
+// LISTAR SOLO ACTIVOS
 $sql = "SELECT id, nombre, precio, destacado, activo, imagen_principal
         FROM productos
+        WHERE activo = 1
         ORDER BY id DESC
         LIMIT ? OFFSET ?";
 $stmt = $connection->prepare($sql);
@@ -41,12 +40,6 @@ $stmt->execute();
 $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -73,15 +66,8 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </nav>
 
 <div class="container mt-4">
-        <?php if (isset($_GET['creado']) && $_GET['creado'] == 1): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Producto registrado correctamente.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-    <?php endif; ?>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-            <?php if (isset($_GET['creado']) && $_GET['creado'] == 1): ?>
+    <?php if (isset($_GET['creado']) && $_GET['creado'] == 1): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             Producto creado correctamente.
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -102,6 +88,14 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     <?php endif; ?>
 
+    <?php if (isset($_GET['desactivado']) && $_GET['desactivado'] == 1): ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Producto desactivado (no se puede eliminar porque está asociado a pedidos).
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h4 mb-0">Productos</h1>
         <a href="agregar.php" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> Nuevo producto
@@ -109,7 +103,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <?php if (empty($productos)): ?>
-        <div class="alert alert-info">No hay productos registrados.</div>
+        <div class="alert alert-info">No hay productos activos registrados.</div>
     <?php else: ?>
         <div class="table-responsive">
             <table class="table table-striped align-middle">
@@ -134,11 +128,9 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             $src = '';
 
                             if ($imgDb !== '') {
-                                // Nuevo: ya viene con assets/...
                                 if (str_starts_with($imgDb, 'assets/')) {
                                     $src = '../../' . $imgDb;
                                 } else {
-                                    // Antiguo: solo nombre de archivo
                                     $src = '../../assets/uploads/productos/' . $imgDb;
                                 }
                             }
@@ -146,7 +138,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             <?php if ($src !== ''): ?>
                                 <img src="<?= htmlspecialchars($src) ?>"
-                                    style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
+                                     style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
                             <?php else: ?>
                                 <span class="text-muted">Sin imagen</span>
                             <?php endif; ?>
@@ -156,55 +148,51 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td>S/ <?= number_format($p['precio'], 2); ?></td>
                         <td><?= $p['destacado'] ? 'Sí' : 'No'; ?></td>
                         <td><?= $p['activo'] ? 'Sí' : 'No'; ?></td>
-                       <td class="text-end">
+                        <td class="text-end">
                             <a href="editar.php?id=<?= $p['id']; ?>" class="btn btn-sm btn-outline-primary">
                                 <i class="bi bi-pencil"></i>
                             </a>
                             <a href="eliminar.php?id=<?= $p['id']; ?>"
-                            class="btn btn-sm btn-outline-danger"
-                            onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>
-
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
-                        <?php if ($totalPaginas > 1): ?>
+            <?php if ($totalPaginas > 1): ?>
             <nav aria-label="Paginación productos" class="mt-3">
-            <ul class="pagination justify-content-center">
+                <ul class="pagination justify-content-center">
 
-                            <li class="page-item <?= $pagina <= 1 ? 'disabled' : '' ?>">
-            <a class="page-link"
-                href="?<?= http_build_query(array_merge($_GET, ['page' => max(1, $pagina-1)])) ?>">
-                Anterior
-            </a>
-            </li>
+                    <li class="page-item <?= $pagina <= 1 ? 'disabled' : '' ?>">
+                        <a class="page-link"
+                           href="?<?= http_build_query(array_merge($_GET, ['page' => max(1, $pagina - 1)])) ?>">
+                            Anterior
+                        </a>
+                    </li>
 
-            <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-            <li class="page-item <?= $i === $pagina ? 'active' : '' ?>">
-                <a class="page-link"
-                href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>">
-                <?= $i ?>
-                </a>
-            </li>
-            <?php endfor; ?>
+                    <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                    <li class="page-item <?= $i === $pagina ? 'active' : '' ?>">
+                        <a class="page-link"
+                           href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>">
+                            <?= $i ?>
+                        </a>
+                    </li>
+                    <?php endfor; ?>
 
-            <li class="page-item <?= $pagina >= $totalPaginas ? 'disabled' : '' ?>">
-            <a class="page-link"
-                href="?<?= http_build_query(array_merge($_GET, ['page' => min($totalPaginas, $pagina+1)])) ?>">
-                Siguiente
-            </a>
-            </li>
+                    <li class="page-item <?= $pagina >= $totalPaginas ? 'disabled' : '' ?>">
+                        <a class="page-link"
+                           href="?<?= http_build_query(array_merge($_GET, ['page' => min($totalPaginas, $pagina + 1)])) ?>">
+                            Siguiente
+                        </a>
+                    </li>
 
-
-            </ul>
+                </ul>
             </nav>
             <?php endif; ?>
-                                    
-
 
         </div>
     <?php endif; ?>

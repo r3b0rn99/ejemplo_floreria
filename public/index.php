@@ -8,6 +8,10 @@ require_once '../includes/config/functions.php';
 $db = new Database();
 $connection = $db->getConnection();
 
+$pageTitle = "Inicio - Florería Bella";
+$basePath  = "../";
+require_once __DIR__ . '/../views/partials/header.php';
+
 
 // Categorías para filtro
 $stmtCat = $connection->prepare("SELECT id, nombre FROM categorias ORDER BY nombre ASC");
@@ -52,56 +56,12 @@ $productos_destacados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
+<?php
+$pageTitle = "Inicio - Florería Bella";
+$basePath  = "../";
+require_once __DIR__ . '/../views/partials/header.php';
+?>
 
-<!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Florería Bella</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link href="../assets/css/style.css" rel="stylesheet">
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-success">
-        <div class="container">
-            <a class="navbar-brand text-white" href="index.php">
-                <i class="bi bi-flower1"></i> Florería Ajuñiga
-            </a>
-            <div class="d-flex">
-                <a href="carrito.php" class="btn btn-light position-relative me-3">
-                    <i class="bi bi-cart"></i> Carrito
-                    <?php if(isset($_SESSION['carrito_count']) && $_SESSION['carrito_count'] > 0): ?>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        <?php echo $_SESSION['carrito_count']; ?>
-                    </span>
-                    <?php endif; ?>
-                </a>
-                <?php if(isset($_SESSION['usuario_id'])): ?>
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <?php echo $_SESSION['usuario_nombre']; ?>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="perfil.php">Mi Perfil</a></li>
-                            <li><a class="dropdown-item" href="pedidos.php">Mis Pedidos</a></li>
-                            <?php if(($_SESSION['usuario_tipo'] ?? '') === 'admin'): ?>
-                                <li><a class="dropdown-item" href="../admin/dashboard.php">Panel del Administrador</a></li>
-                            <?php endif; ?>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="../includes/auth/logout.php">Cerrar Sesión</a></li>
-                        </ul>
-                    </div>
-                <?php else: ?>
-                    <a href="../includes/auth/login.php" class="btn btn-light">Iniciar sesión</a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </nav>
 
 
 
@@ -240,8 +200,4 @@ $productos_destacados = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/main.js"></script>
-</body>
-</html>
+    <?php require_once __DIR__ . '/../views/partials/footer.php'; ?>
