@@ -185,9 +185,3 @@ Probar API productos con token.
 
 Créditos
 Proyecto académico – Desarrollo de Soluciones Web Back-End.
-
-yaml
-Copiar código
-
-Si sí, te guío exacto para sacar **schema** y **seed** separados sin que se te complique.
-::contentReference[oaicite:0]{index=0}
