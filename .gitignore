@@ -1,0 +1,9 @@
+# Logs
+logs/app.log
+
+# Archivos generados
+assets/boletas/*.pdf
+assets/qr/*.png
+
+# Cache de librerías
+includes/lib/phpqrcode/cache/
